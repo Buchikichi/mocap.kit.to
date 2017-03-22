@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta name=viewport content="width=device-width, initial-scale=1"/>
+<title>Mocap of Perfume</title>
+<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"/>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script type="text/javascript" src="js/perfume-min.js"></script>
+<style>
+#view {
+	text-align: center;
+}
+#canvas {
+	background-color: black;
+}
+input.ui-slider-input {
+	width: 60px;
+}
+.ui-slider-track {
+	margin-left: 88px;
+}
+#loading {
+	font-size: 2em;
+	text-align: center;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: #444;
+	z-index: 1000;
+}
+</style>
+</head>
+
+<body>
+<div data-role="page">
+  <div id="header" data-role="header" data-theme="b" data-position="fixed" data-size="mini">
+    <a href="/" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-home">back</a>
+    <h1>Mocap of Perfume</h1>
+  </div>
+  <div id="view"><canvas id="canvas"></canvas></div>
+  <div id="footer">
+    <input id="slider" type="range" value="0" min="0" max="0" step="1" data-highlight="true"/>
+    <fieldset data-role="controlgroup" data-type="horizontal">
+    <button id="playButton" data-icon="carat-r">Play</button>
+    </fieldset>
+  </div>
+</div>
+<div id="loading"></div>
+</body>
+</html>

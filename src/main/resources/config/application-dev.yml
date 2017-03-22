@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    url: ${DB_URL}?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory
+    username: ${DB_NAME}
+    password: ${DB_PASS}
+    driverClassName: org.postgresql.Driver
+logging.level.: DEBUG

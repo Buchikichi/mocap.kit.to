@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name=viewport content="width=device-width, initial-scale=1"/>
+<title>mocap.kit.to</title>
+<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"/>
+<script type="text/javascript" defer src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" defer src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+</head>
+
+<body>
+  <div data-role="page">
+    <div data-role="header" data-theme="b" data-position="fixed">
+      <a href="http://buchi.kit.to/" class="ui-btn ui-btn-left ui-corner-all ui-btn-inline ui-icon-back ui-btn-icon-notext"></a>
+      <h1>mocap.kit.to</h1>
+    </div>
+    <div data-role="content">
+      <div data-role="collapsible" data-collapsed="false">
+        <h3>Mocap player</h3>
+        <div class="ui-body-a ui-corner-all">
+          <div class="ui-bar ui-bar-a ui-corner-all">Mocap player</div>
+          <div class="ui-body">
+            Play motion capture data with JavaScript + Canvas (2D Context).
+          </div>
+          <div class="ui-body">
+            モーションキャプチャーのデータを JavaScript + Canvas(2D Context) で再生する試み。<br/>
+            <a href="http://mocap.cs.cmu.edu/" target="_blank">CMU(Carnegie Mellon University)</a>のASF/AMCデータを、JSONに変換して使用させていただいております。
+          </div>
+          <a href="cmudb.html" data-ajax="false" class="ui-btn ui-corner-all ui-mini ui-btn-inline ui-btn-icon-left ui-icon-power">Play</a>
+        </div>
+      </div>
+      <div data-role="collapsible" data-collapsed="false">
+        <h3>Perfume</h3>
+        <div class="ui-body-a ui-corner-all">
+          <div class="ui-bar ui-bar-a ui-corner-all">Perfume</div>
+          <div class="ui-body">
+            Play Perfume's motion capture data on the browser.
+          </div>
+          <div class="ui-body"><a href="http://www.perfume-global.com/" target="_blank">Perfume official global website</a>で公開されている、Perfumeのモーションキャプチャーデータをブラウザー上で再生。<br/>
+            予め、モーションデータの BVH 形式を JSON に変換し、SOUND を WAV から WebM と MP3 に変換しています。
+          </div>
+          <a href="perfume.html" data-ajax="false" class="ui-btn ui-corner-all ui-mini ui-btn-inline ui-btn-icon-left ui-icon-power">Play</a>
+        </div>
+      </div>
+    </div>
+    <div data-role="footer" data-position="fixed">
+      <h1><a href="http://buchi.kit.to/">ぶちきちの研究室</a> &copy;Nekoko Club.</h1>
+    </div>
+  </div>
+</body>
+</html>

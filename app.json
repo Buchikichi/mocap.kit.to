@@ -1,0 +1,6 @@
+{
+  "name": "Mocap",
+  "description": "mocap.kit.to.",
+  "image": "heroku/java",
+  "addons": [ "heroku-postgresql" ]
+}
