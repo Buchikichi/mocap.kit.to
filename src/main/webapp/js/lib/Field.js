@@ -7,6 +7,7 @@ function Field() {
 	this.rotationH = Field.DEFAULT_H;
 	this.rotationV = Math.PI / 8;
 	this.animaList = [];
+	this.showName = false;
 	this.init();
 }
 Field.WIDTH = 960;
@@ -29,14 +30,16 @@ Field.prototype.resetCanvas = function(width, height) {
 	$('#canvas').attr('width', this.width).attr('height', this.height);
 };
 
-Field.prototype.addMotion = function(data) {
+Field.prototype.addMotion = function(name, data) {
 	let slider = $('#slider');
 	let len = data.motion.length - 1;
 	let max = parseInt(slider.prop('max'));
+	let anima = new Anima(data);
 
 console.log('motions:' + data.motion.length);
 console.log('max:' + max);
-	this.animaList.push(new Anima(data));
+	anima.name = name.split('.')[0];
+	this.animaList.push(anima);
 	this.resetMotion();
 	if (max < len) {
 		slider.prop('max', len);
@@ -53,14 +56,12 @@ Field.prototype.loadMotion = function(name) {
 	return $.ajax('dat/' + name, {
 		'dataType': 'json',
 		'success': function(data) {
-			field.addMotion(data);
+			field.addMotion(name, data);
 		}
 	});
 };
 
 Field.prototype.resetMotion = function() {
-	let field = this;
-
 	this.shiftMotion(0);
 	this.rotateH(0);
 	this.rotateV(0);
@@ -68,14 +69,13 @@ Field.prototype.resetMotion = function() {
 };
 
 Field.prototype.shiftMotion = function(motionNo) {
-	let field = this;
 	let direction = motionNo < this.motionNo ? -1 : 1;
 
 	while (this.motionNo != motionNo) {
 		if (0 < direction) this.motionNo += direction;
-		this.animaList.forEach(function(anima) {
-			anima.shift(field.motionNo, direction);
-			anima.calculate(field.motionNo != motionNo);
+		this.animaList.forEach(anima => {
+			anima.shift(this.motionNo, direction);
+			anima.calculate(this.motionNo != motionNo);
 		});
 		if (direction < 0) this.motionNo += direction;
 	}
@@ -89,12 +89,10 @@ Field.prototype.nextMotion = function() {
 };
 
 Field.prototype.rotateH = function(diff) {
-	let field = this;
-
 	this.rotationH += (Math.PI / 720) * diff;
 	this.rotationH = Math.trim(this.rotationH);
-	this.animaList.forEach(function(anima) {
-		anima.rotateH(field.rotationH);
+	this.animaList.forEach(anima => {
+		anima.rotateH(this.rotationH);
 	});
 	AudioMixer.INSTANCE.setPan(this.getPanValue());
 };
@@ -104,12 +102,10 @@ Field.prototype.getPanValue = function() {
 };
 
 Field.prototype.rotateV = function(diff) {
-	let field = this;
-
 	this.rotationV += (Math.PI / 720) * diff;
 	this.rotationV = Math.trim(this.rotationV);
-	this.animaList.forEach(function(anima) {
-		anima.rotateV(field.rotationV);
+	this.animaList.forEach(anima => {
+		anima.rotateV(this.rotationV);
 	});
 };
 
@@ -131,9 +127,18 @@ Field.prototype.draw = function() {
 //ctx.arc(0, 0, 3, 0, Math.PI * 2, false);
 //ctx.fill();
 	ctx.lineCap = 'round';
-	this.animaList.forEach(function(anima, ix) {
+	this.animaList.forEach((anima, ix) => {
 		ctx.strokeStyle = Field.COLOR_LIST[ix % colors];
 		anima.draw(ctx);
+		//
+		if (this.showName) {
+			let head = anima.getHead();
+
+			ctx.save();
+			ctx.font = "24px 'Times New Roman'";
+			ctx.strokeText(anima.name, head.cx, head.cy);
+			ctx.restore();
+		}
 	});
 	ctx.restore();
 };

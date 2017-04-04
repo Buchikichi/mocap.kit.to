@@ -4,6 +4,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 	let view = $('#view');
 	let slider = $('#slider');
+	let nameFlip = $('#nameFlip');
 	let field = new Field();
 	let cx = 0;
 	let cy = 0;
@@ -97,6 +98,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		field.shiftMotion(frame);
 		AudioMixer.INSTANCE.setCurrentTime(time);
 	});
+	nameFlip.change(()=> {
+		field.showName = nameFlip.prop('checked');
+	});
 	$(window).resize(onResize);
 	activate();
 	$(window).resize();
@@ -162,15 +166,15 @@ class MotionList {
 			li.attr('data-filtertext', text);
 			ul.append(li);
 			anchor.click(()=> {
-				this.load(rec.id);
+				this.load(rec);
 			});
 		});
 		ul.filterable('refresh');
 	}
 
-	load(id) {
+	load(rec) {
 		let data = {
-			id: id
+			id: rec.id
 		};
 
 		$.mobile.loading('show', {textVisible: true});
@@ -181,7 +185,7 @@ class MotionList {
 		}).then(response=> {
 			let data = JSON.parse(response.data);
 
-			this.field.addMotion(data);
+			this.field.addMotion(rec.name, data);
 			$.mobile.loading('hide');
 		});
 	}

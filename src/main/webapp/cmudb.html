@@ -29,8 +29,12 @@
   <div id="footer">
     <input id="slider" type="range" value="0" min="0" max="0" step="1" data-highlight="true"/>
     <fieldset data-role="controlgroup" data-type="horizontal">
-    <button id="playButton" data-icon="carat-r" disabled>Play</button>
+      <button id="playButton" data-icon="carat-r" disabled>Play</button>
     </fieldset>
+      <label for="nameFlip">Name:</label>
+      <input type="checkbox" id="nameFlip" data-role="flipswitch" checked=""/>
+    <div class="ui-field-contain">
+    </div>
   </div>
   <div id="searchPanel" data-role="panel" data-position="right" data-display="overlay" data-position-fixed="true">
     <input id="search" data-mini="true" type="search"/>
