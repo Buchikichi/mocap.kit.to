@@ -21,8 +21,8 @@ public class AmcService {
 	private AmcRepository amcRepository;
 
 	public List<AmcShort> list(String keyword) {
-		Pageable limit = new PageRequest(0, 10);
-		Page<AmcShort> page = this.amcShortRepository.findByNameContainingOrDescriptionContaining(keyword, keyword, limit);
+		Pageable limit = new PageRequest(0, 30);
+		Page<AmcShort> page = this.amcShortRepository.findByNameContainingOrLowerContaining(keyword, keyword, limit);
 		List<AmcShort> list = page.getContent();
 
 		return list;

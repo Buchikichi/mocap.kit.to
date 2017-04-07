@@ -11,5 +11,5 @@ import to.kit.mocap.entity.AmcShort;
  * @author H.Sasai
  */
 public interface AmcShortRepository extends JpaRepository<AmcShort, String> {
-	Page<AmcShort> findByNameContainingOrDescriptionContaining(String name, String description, Pageable pageable);
+	Page<AmcShort> findByNameContainingOrLowerContaining(String name, String lower, Pageable pageable);
 }

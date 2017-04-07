@@ -20,4 +20,5 @@ public class AmcShort {
 	private String asfid;
 	private String name;
 	private String description;
+	private String lower;
 }

@@ -156,10 +156,13 @@ class MotionList {
 	}
 
 	setupList(list) {
+		let panel = $('#searchPanel');
 		let ul = $('#searchPanel ul');
 
 		list.forEach(rec=> {
-			let anchor = $('<a></a>').text(rec.name);
+			let name = $('<span></span>').text(rec.name);
+			let description = $('<p></p>').text(rec.description);
+			let anchor = $('<a></a>').append(name).append(description);
 			let li = $('<li></li>').append(anchor);
 			let text = rec.name + rec.description;
 
@@ -167,6 +170,7 @@ class MotionList {
 			ul.append(li);
 			anchor.click(()=> {
 				this.load(rec);
+				panel.panel('close');
 			});
 		});
 		ul.filterable('refresh');

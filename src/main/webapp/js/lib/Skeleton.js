@@ -39,7 +39,7 @@ Skeleton.prototype.prepare = function(node) {
 		skeleton.prepare(child);
 	});
 	node.skeleton = this;
-	this.map[node.name] = node;
+	this.map[node.name.toLowerCase()] = node;
 };
 
 Skeleton.prototype.calcRotationMatrix = function() {

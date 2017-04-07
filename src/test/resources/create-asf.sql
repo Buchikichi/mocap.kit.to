@@ -7,7 +7,7 @@ CREATE TABLE asf(
   subjectnumber integer NOT NULL,
   name text NOT NULL,
   description text,
-  data text NOT NULL,
+  data text,
   PRIMARY KEY (id)
 );
 COMMENT ON COLUMN asf.id IS 'ID';

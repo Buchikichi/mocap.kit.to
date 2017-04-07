@@ -21,7 +21,14 @@ public class AmcController {
 	@RequestMapping("/list")
 	@ResponseBody
 	public List<AmcShort> list(MotionForm form) {
-		return this.amcService.list(form.getKeyword());
+		String keyword = form.getKeyword();
+
+		if (keyword == null) {
+			keyword = "";
+		} else {
+			keyword = keyword.toLowerCase();
+		}
+		return this.amcService.list(keyword);
 	}
 
 	@RequestMapping("/detail")

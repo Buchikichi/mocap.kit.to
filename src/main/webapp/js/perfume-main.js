@@ -1,24 +1,25 @@
 /**
  * Mocap player main.
  */
-document.addEventListener('DOMContentLoaded', function() {
-	var loading = document.getElementById('loading');
-	var repositories = [AudioMixer.INSTANCE, MotionManager.INSTANCE];
-	var motions = ['aachan.bvh', 'kashiyuka.bvh', 'nocchi.bvh'];
-	var sound = 'Perfume_globalsite_sound';
-	var view = $('#view');
-	var slider = $('#slider');
-	var isShift = false;
-	var field = new Field();
-	var cx = 0;
-	var cy = 0;
-	var which = 0;
-	var onResize = function() {
-		var body = $('body');
-		var header = $('#header');
-		var footer = $('#footer');
-		var width = body.width();
-		var height = body.height() - header.outerHeight(true) - footer.outerHeight(true) - 16;
+document.addEventListener('DOMContentLoaded', ()=> {
+	let loading = document.getElementById('loading');
+	let repositories = [AudioMixer.INSTANCE, MotionManager.INSTANCE];
+	let motions = ['aachan.bvh', 'kashiyuka.bvh', 'nocchi.bvh'];
+	let sound = 'Perfume_globalsite_sound';
+	let view = $('#view');
+	let slider = $('#slider');
+	let nameFlip = $('#nameFlip');
+	let isShift = false;
+	let field = new Field();
+	let cx = 0;
+	let cy = 0;
+	let which = 0;
+	let onResize = ()=> {
+		let body = $('body');
+		let header = $('#header');
+		let footer = $('#footer');
+		let width = body.width();
+		let height = body.height() - header.outerHeight(true) - footer.outerHeight(true) - 16;
 
 		if (height / 9 < width / 16) {
 			width = parseInt(height / 9 * 16);
@@ -31,23 +32,23 @@ document.addEventListener('DOMContentLoaded', function() {
 //		console.log('body:' + body.height());
 //		console.log('body:' + body.innerHeight());
 	}
-	var start = function(e) {
-		var isMouse = e.type.match(/^mouse/);
+	let start = e => {
+		let isMouse = e.type.match(/^mouse/);
 
 		if (isMouse) {
 			cx = e.pageX;
 			cy = e.pageY;
 		} else if (e.originalEvent.touches) {
-			var touches = e.originalEvent.touches[0];
+			let touches = e.originalEvent.touches[0];
 			cx = touches.pageX;
 			cy = touches.pageY;
 		}
 		which = e.which;
 	};
-	var touch = function(e) {
-		var isMouse = e.type.match(/^mouse/);
-		var tx;
-		var ty;
+	let touch = e => {
+		let isMouse = e.type.match(/^mouse/);
+		let tx;
+		let ty;
 
 		if (isMouse) {
 //console.log('which:' + which);
@@ -57,28 +58,28 @@ document.addEventListener('DOMContentLoaded', function() {
 			tx = e.pageX;
 			ty = e.pageY;
 		} else if (e.originalEvent.touches) {
-			var touches = e.originalEvent.touches[0];
+			let touches = e.originalEvent.touches[0];
 			tx = touches.pageX;
 			ty = touches.pageY;
 		}
-		var diffH = cx - tx;
-		var diffV = cy - ty;
+		let diffH = cx - tx;
+		let diffV = cy - ty;
 
 		field.rotateH(diffH);
 		field.rotateV(diffV);
 		cx = tx;
 		cy = ty;
 	};
-	var end = function(e) {
+	let end = e => {
 //console.log('end');
 		which = 0;
 	};
-	var activate = function() {
+	let activate = ()=> {
 		let requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-		var time = AudioMixer.INSTANCE.getCurrentTime();
+		let currentTime = AudioMixer.INSTANCE.getCurrentTime();
 
-		if (time) {
-			var frame = parseInt(time / 0.025);
+		if (currentTime) {
+			let frame = parseInt(currentTime / 0.025);
 //console.log('f:' + frame);
 			field.shiftMotion(frame);
 			isShift = true;
@@ -97,53 +98,56 @@ document.addEventListener('DOMContentLoaded', function() {
 	view.bind('touchstart', start);
 	view.bind('touchmove', touch);
 	view.bind('touchend', end);
-	slider.change(function() {
+	slider.change(()=> {
 		if (isShift) {
 			return;
 		}
-		var frame = $(this).val();
-		var time = frame * 0.025;
+		let frame = slider.val();
+		let time = frame * 0.025;
 
 		field.shiftMotion(frame);
 		AudioMixer.INSTANCE.setCurrentTime(time);
 	});
+	nameFlip.change(()=> {
+		field.showName = nameFlip.prop('checked');
+	});
 	$(window).resize(onResize);
 	$(window).resize();
 	//
-	$('#playButton').click(function() {
-		var time = AudioMixer.INSTANCE.getCurrentTime();
+	$('#playButton').click(()=> {
+		let currentTime = AudioMixer.INSTANCE.getCurrentTime();
 
-		if (time) {
+		if (currentTime) {
 			AudioMixer.INSTANCE.fade();
 			return;
 		}
-		var panValue = field.getPanValue();
-		var frame = slider.val();
-		var time = frame * 0.025;
+		let panValue = field.getPanValue();
+		let frame = slider.val();
+		let time = frame * 0.025;
 
 		AudioMixer.INSTANCE.play(sound, 1, true, panValue, time);
 	});
 	MotionManager.INSTANCE.reserve(motions);
 	AudioMixer.INSTANCE.reserve([sound]);
-	var checkLoading = function() {
-		var loaded = 0;
-		var max = 0;
-		var isComplete = true;
+	let checkLoading = ()=> {
+		let loaded = 0;
+		let max = 0;
+		let isComplete = true;
 
-		repositories.forEach(function(repo) {
+		repositories.forEach(repo => {
 			loaded += repo.loaded;
 			max += repo.max;
 			isComplete &= repo.isComplete();
 		});
-		var msg = loaded + '/' + max;
+		let msg = loaded + '/' + max;
 
 		loading.innerHTML = msg;
 		if (isComplete) {
 			$.mobile.loading('hide');
 			loading.parentNode.removeChild(loading);
 			activate();
-			motions.forEach(function(key) {
-				field.addMotion(MotionManager.INSTANCE.dic[key]);
+			motions.forEach(key => {
+				field.addMotion(key, MotionManager.INSTANCE.dic[key]);
 			});
 			return;
 		}

@@ -4,3 +4,4 @@ spring:
     username: ${DB_NAME}
     password: ${DB_PASS}
     driverClassName: org.postgresql.Driver
+    maxTotal: 10

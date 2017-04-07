@@ -8,6 +8,7 @@ CREATE TABLE amc(
   name text NOT NULL,
   description text,
   data text NOT NULL,
+  lower text,
   PRIMARY KEY (id)
 );
 COMMENT ON COLUMN amc.id IS 'ID';

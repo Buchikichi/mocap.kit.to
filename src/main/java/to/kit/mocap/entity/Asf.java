@@ -8,18 +8,16 @@ import javax.persistence.Id;
 import lombok.Data;
 
 /**
- * Amc.
+ * Asf.
  * @author H.Sasai
  */
 @Entity
 @Data
-public class Amc {
+public class Asf {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String id;
-	private String asfid;
+	private int subjectnumber;
 	private String name;
 	private String description;
-	private String data;
-	private String lower;
 }
